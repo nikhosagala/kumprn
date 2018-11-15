@@ -1,0 +1,275 @@
+{
+	"info": {
+		"_postman_id": "56470209-144a-47c1-b792-175fa04bc3b9",
+		"name": "Kumprn",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Add Tag",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"title\": \"pilkada 2018\"\n}"
+				},
+				"url": {
+					"raw": "{{URL}}/tags/",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"tags",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Tags",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{URL}}/tags/",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"tags",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Tag Detail",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{URL}}/tags/pilkada-2018/",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"tags",
+						"pilkada-2018",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add News",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "6f6bed2b-40ef-4dfb-ada8-e0e78d25a142",
+						"exec": [
+							"if (pm.response.code == 201) {",
+							"    pm.environment.set('NEWS_SLUG', pm.response.json().slug)",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"Jokowi vs Prabowo\",\n    \"status\": \"draft\",\n    \"tags\": [\n        {\n            \"title\": \"pemilu 2018\"\n        },\n        {\n            \"title\": \"pildaka 2018\"\n        }\n    ],\n    \"content\": \"Jokowi vs Prabowo\"\n}"
+				},
+				"url": {
+					"raw": "{{URL}}/news/",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"news",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get News",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "f2553162-0df4-4377-a076-894a6e67131e",
+						"exec": [
+							"if (pm.response.code == 200) {",
+							"    if (pm.response.json().length > 0) {",
+							"        pm.environment.set(\"NEWS_SLUG\", pm.response.json()[0].slug);",
+							"    }",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{URL}}/news/",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"news",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get News Detail",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{URL}}/news/{{NEWS_SLUG}}/",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"news",
+						"{{NEWS_SLUG}}",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update News",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"#2019JokowiLagi\",\n    \"status\": \"publish\",\n    \"tags\": [\n        {\n            \"title\": \"pemilu 2018\"\n        }\n    ],\n    \"content\": \"2019 Harus Jokowi Lagi\"\n}"
+				},
+				"url": {
+					"raw": "{{URL}}/news/{{NEWS_SLUG}}/",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"news",
+						"{{NEWS_SLUG}}",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Filter News by Status and Topics",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "f2553162-0df4-4377-a076-894a6e67131e",
+						"exec": [
+							"if (pm.response.code == 200) {",
+							"    if (pm.response.json().length > 0) {",
+							"        pm.environment.set(\"NEWS_SLUG\", pm.response.json()[0].slug);",
+							"    }",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{URL}}/news/?status=draft&topics=pemilu%202018",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"news",
+						""
+					],
+					"query": [
+						{
+							"key": "status",
+							"value": "draft"
+						},
+						{
+							"key": "topics",
+							"value": "pemilu%202018"
+						},
+						{
+							"key": "status",
+							"value": "publish",
+							"disabled": true
+						},
+						{
+							"key": "status",
+							"value": "delete",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
