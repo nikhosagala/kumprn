@@ -37,14 +37,15 @@ class NewsList(generics.ListCreateAPIView):
         }
 
     def get_queryset(self):
+        qs = News.objects.filter(is_active=True)
         status = self.request.query_params.get('status', None)
         tags = self.request.query_params.get('topics', None)
         if status is not None:
-            self.queryset = self.queryset.filter(status=status)
+            qs = qs.filter(status=status)
         if tags is not None:
             tag = tags.split(',')
-            self.queryset = self.queryset.filter(tags__title__in=tag)
-        return self.queryset
+            qs = qs.filter(tags__title__in=tag)
+        return qs
 
 
 class NewsDetail(generics.RetrieveUpdateDestroyAPIView):
