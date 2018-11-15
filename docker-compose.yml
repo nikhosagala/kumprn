@@ -1,0 +1,12 @@
+version: '3.6'
+
+services:
+  kumprn-db:
+    image: postgres
+    container_name: kumprn-db
+    environment:
+    - POSTGRES_DB=kumprn
+    - POSTGRES_USER=kumprn
+    - POSTGRES_PASSWORD=somepassword
+    ports:
+    - 5432:5432
