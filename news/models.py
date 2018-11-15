@@ -64,7 +64,6 @@ class BaseModel(TimestampedModel):
 
 
 class Tag(BaseModel):
-    pass
 
     class Meta:
         db_table = 'tag'

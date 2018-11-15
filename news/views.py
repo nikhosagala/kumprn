@@ -2,8 +2,8 @@
 
 from rest_framework import generics
 
-from news.models import Tag
-from news.serializers import TagSerializer
+from news.models import Tag, News
+from news.serializers import TagSerializer, NewsSerializer
 
 
 class TagList(generics.ListCreateAPIView):
@@ -27,15 +27,26 @@ class TagDetail(generics.RetrieveUpdateDestroyAPIView):
         }
 
 
-class NewsView(generics.ListCreateAPIView, generics.RetrieveUpdateDestroyAPIView):
-    def get(self, request, *args, **kwargs):
-        pass
+class NewsList(generics.ListCreateAPIView):
+    serializer_class = NewsSerializer
+    queryset = News.objects.filter(is_active=True)
 
-    def post(self, request, *args, **kwargs):
-        pass
+    def get_serializer_context(self):
+        return {
+            'request': self.request
+        }
 
-    def put(self, request, *args, **kwargs):
-        pass
 
-    def delete(self, request, *args, **kwargs):
-        pass
+class NewsDetail(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = NewsSerializer
+    queryset = News.objects
+    lookup_field = 'slug'
+
+    def get_serializer_context(self):
+        return {
+            'request': self.request
+        }
+
+    def perform_destroy(self, instance):
+        instance.is_active = False
+        instance.save()
