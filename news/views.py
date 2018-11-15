@@ -36,6 +36,16 @@ class NewsList(generics.ListCreateAPIView):
             'request': self.request
         }
 
+    def get_queryset(self):
+        status = self.request.query_params.get('status', None)
+        tags = self.request.query_params.get('topics', None)
+        if status is not None:
+            self.queryset = self.queryset.filter(status=status)
+        if tags is not None:
+            tag = tags.split(',')
+            self.queryset = self.queryset.filter(tags__title__in=tag)
+        return self.queryset
+
 
 class NewsDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = NewsSerializer
@@ -49,4 +59,5 @@ class NewsDetail(generics.RetrieveUpdateDestroyAPIView):
 
     def perform_destroy(self, instance):
         instance.is_active = False
+        instance.status = News.deleted
         instance.save()
